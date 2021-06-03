@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+</head>
+<body>
+<!-- Include _menu.html -->
+<th:block th:include="/_menu"></th:block>
+
+
+
+<!-- /login?error=true -->
+<div th:if="${#request.getParameter('error') == 'true'}"
+     style="color:red;margin:10px 0px;">
+    Login Failed!!!<br />
+    Reason :
+    <span th:if="${#session!= null and #session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION') != null}"
+          th:utext="${#session.getAttribute('SPRING_SECURITY_LAST_EXCEPTION').message}">
+                Static summary
+         </span>
+
+</div>
+
+
+
+
+<div class="container">
+    <h3>Введите имя пользователя и пароль </h3>
+    <form name='f' th:action="@{/j_spring_security_check}" method='POST'>
+        <div class="form-group" >
+            <label for="exampleInputEmail1">Login</label>
+            <input type="text"  class="form-control"  name='username'  id="exampleInputEmail1" aria-describedby="emailHelp">
+
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" name='password' class="form-control"  id="exampleInputPassword1">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <br>
+    <a th:href="@{/register}">Регистрация</a>
+    <br>
+    Username/pass:
+    <ul>
+        <li>dbuser1/123</li>
+        <li>dbadmin1/123</li>
+    </ul>
+
+</div>
+
+
+
+
+
+</div>
+
+
+</body>
+
+</html>

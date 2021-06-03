@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" charset="UTF-8">
+    <title>Shopping cart</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css} "/>
+
+    <link href=https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"/>
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/static/css/StyleSheet.css}"/>
+
+
+
+</head>
+<body>
+
+<th:block th:include="/_menu"></th:block>
+
+
+</div>
+
+<div class="container">
+    <div class="row">
+        <h2></h2>
+        <h2 class="DefMargin brd">Shop Cart </h2>
+        <div class="col-sm-4">
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Model</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col">Count</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:each="item: ${OrdersList.detailedOrdersList}">
+
+                    <td th:text="${item.Model().getModel()}"></td>
+                    <td th:text="${item.Price()}"></td>
+
+                    <td>
+
+
+                        <form action="#" method="POST" th:action="@{/Shop/ReCount{id}(id=${item.Model().id()})}"
+                              th:object="${ChosenItem}" >
+
+                            <select th:field="*{counts}"/>
+                            <option th:each="number : ${CountArray}"
+                                    th:value="${number}"
+                                    th:text="${number}"
+                                    th:selected="${number==item.getCounts()}" >
+
+                            </option>
+
+                            </select>
+
+                            <input type="submit" value="Submit count" class="btn btn-primary editable">
+
+                        </form>
+
+                    </td>
+
+
+                    <td>
+                        <form method="POST" th:action="@{/Shop/Remove{id}(id=${item.Model().id()})}"
+                              style="display:inline;">
+                            <input type="submit" value="Remove" class="btn btn-primary editable">
+                        </form>
+                    </td>
+
+
+                </tr>
+
+                <form action="#" method="post"
+                      th:action="@{/Shop/AddOrder}"
+                      style="display:inline;">
+
+                    <input type="submit" value="Buy" class="btn btn-primary editable">
+                </form>
+                </tbody>
+            </table>
+
+            </form>
+
+
+            <!--                <br>-->
+            <!--                <form action="#" method="post" th:action="@{/order/AddOrder}" th:object="${ordersList}"-->
+            <!--                      style="display:inline;">-->
+            <!--                    <input type="hidden" th:field="*{ordersList}" th:value="${ordersList.getOrdersList()}">-->
+            <!--<br>-->
+            <!--                    <input type="submit" value="Buy" class="btn btn-primary editable">-->
+            <!--                </form>-->
+
+
+
+        </div>
+
+    </div>
+</div>
+
+
+
+</body>
+</html>
