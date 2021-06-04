@@ -13,10 +13,9 @@ import ru.course.dao.products.interfaces.I_DetailedOrdersDAO;
 import ru.course.dao.products.interfaces.I_ItemDAO;
 import ru.course.dao.products.interfaces.I_OrderDAO;
 import ru.course.model.DetailedOrders;
-import ru.course.model.ItemList;
+import ru.course.model.Item;
 import ru.course.model.OrderList;
 import ru.course.model.Orders;
-import ru.course.utils.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -42,9 +41,9 @@ public class ShopController {
 
         try{
 
-            List<ItemList> itemLists = (List<ItemList>)session.getAttribute("ItemsList");
+            List<Item> items = (List<Item>)session.getAttribute("ItemsList");
 
-            getCartItems(itemLists);
+            getCartItems(items);
             model.addAttribute("ChosenItem",new DetailedOrders());
             model.addAttribute("CountArray",arr);
             model.addAttribute("OrdersList",ordersList);
@@ -67,30 +66,29 @@ public class ShopController {
 
         HttpSession session = req.getSession();
 
-
         try{
 
-            List<ItemList> itemLists = (List<ItemList>)session.getAttribute("ItemsList");
+            List<Item> items = (List<Item>)session.getAttribute("ItemsList");
 
 
-            if(itemLists==null){
+            if(items ==null){
 
-                itemLists=new ArrayList<>();
-                itemLists.add(i_itemDAO.getByPK(id));
-                session.setAttribute("ItemsList", itemLists);
+                items =new ArrayList<>();
+                items.add(i_itemDAO.getByPK(id));
+                session.setAttribute("ItemsList", items);
                 System.out.println("Items were added for the first time");
 
             }
             else{
 
-                itemLists.add(i_itemDAO.getByPK(id));
-                session.setAttribute("ItemsList", itemLists);
+                items.add(i_itemDAO.getByPK(id));
+                session.setAttribute("ItemsList", items);
                 System.out.println("Items were added into the list");
 
             }
 
 
-            getCartItems(itemLists);
+            getCartItems(items);
 
             return new RedirectView("/Shop/Cart");
 
@@ -106,22 +104,22 @@ public class ShopController {
     }
 
 
-    public void getCartItems(List<ItemList> CartAdded) throws SQLException {
+    public void getCartItems(List<Item> CartAdded) throws SQLException {
 
-        List<ItemList> AllItems= i_itemDAO.getAll();
+        List<Item> AllItems= i_itemDAO.getAll();
 
         ordersList.getDetailedOrdersList().clear();
         if(CartAdded == null) {
-            CartAdded = new ArrayList<ItemList>();
+            CartAdded = new ArrayList<Item>();
         }
-        for (ItemList allItems : AllItems) {
+        for (Item allItems : AllItems) {
 
             int round = 1; //счетчик для внутреннего цикла
 
             int price1;
             int count1 = 0;
 
-            for (ItemList cartAdded : CartAdded) {
+            for (Item cartAdded : CartAdded) {
 
                 if (allItems.id() == cartAdded.id()) {
                     count1++;
@@ -163,7 +161,7 @@ public class ShopController {
         HttpSession session = req.getSession();
 
 
-        List<ItemList> itemLists = (List<ItemList>)session.getAttribute("ItemsList");
+        List<Item> itemLists = (List<Item>)session.getAttribute("ItemsList");
 
 
         try{
@@ -204,7 +202,7 @@ public class ShopController {
         try {
 
 
-            List<ItemList> itemLists = (List<ItemList>)session.getAttribute("ItemsList");
+            List<Item> itemLists = (List<Item>)session.getAttribute("ItemsList");
 
             itemLists.removeIf(items -> items.id() == id);
 
@@ -260,11 +258,11 @@ public class ShopController {
         HttpSession session = req.getSession();
     MainController contr1 = new MainController();
 
-        List<ItemList> itemLists = (List<ItemList>)session.getAttribute("ItemsList");
-        if (itemLists == null){
+        List<Item> items = (List<Item>)session.getAttribute("ItemsList");
+        if (items == null){
             return new RedirectView("/Shop/Cart");
         }
-        getCartItems(itemLists);
+        getCartItems(items);
 
         try {
             //создаем новый заказ
@@ -285,7 +283,7 @@ public class ShopController {
                 System.out.println("Inserted "+result+" row");
 
             }
-            itemLists = new ArrayList<ItemList>();
+            items = new ArrayList<Item>();
             return new RedirectView("/Shop/Orders");
 
 

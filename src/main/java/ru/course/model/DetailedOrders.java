@@ -1,7 +1,5 @@
 package ru.course.model;
 
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 
 
@@ -10,7 +8,7 @@ public class DetailedOrders implements Serializable {
 
 
 
-    public DetailedOrders(int id, ItemList model, int counts, int price,int OrderId){
+    public DetailedOrders(int id, Item model, int counts, int price, int OrderId){
 
         this.id=id;
         this.model=model;
@@ -32,7 +30,7 @@ public class DetailedOrders implements Serializable {
     }
 
     private int id;
-    private ItemList model;
+    private Item model;
     private int Counts;
     private int Price;
     private int OrderId;
@@ -57,7 +55,7 @@ public class DetailedOrders implements Serializable {
     }
 
 
-    public void setModel(ItemList item) {
+    public void setModel(Item item) {
 
         this.model = item;
     }
@@ -81,7 +79,7 @@ public class DetailedOrders implements Serializable {
         return this.OrderId;
     }
 
-    public ItemList Model() {
+    public Item Model() {
 
         return this.model;
     }

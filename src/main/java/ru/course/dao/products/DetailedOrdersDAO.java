@@ -1,11 +1,9 @@
 package ru.course.dao.products;
 
-import ru.course.dao.products.ConnectionPool;
-import ru.course.dao.products.DAO_Factory;
 import ru.course.dao.products.interfaces.I_DetailedOrdersDAO;
 import ru.course.dao.products.interfaces.I_ItemDAO;
 import ru.course.model.DetailedOrders;
-import ru.course.model.ItemList;
+import ru.course.model.Item;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -102,7 +100,7 @@ public class DetailedOrdersDAO implements I_DetailedOrdersDAO {
 
             Statement statement=conn.createStatement();
             ResultSet res=statement.executeQuery(query);
-            ItemList item;
+            Item item;
             while(res.next()){
 
                 detailedOrdersArrayList.add(detailedOrdersDAO.getByPK(res.getInt("id")));

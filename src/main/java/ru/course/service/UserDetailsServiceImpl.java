@@ -40,6 +40,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<String> roleNames = this.appRoleDAO.getRoleNames(appUser.getUserId());
 
         List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
+
         if (roleNames != null) {
             for (String role : roleNames) {
                 // ROLE_USER, ROLE_ADMIN,..

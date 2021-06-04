@@ -13,17 +13,48 @@
 
 
 
-<div class="container">
-    <div class="row  justify-content-md-center">
 
-        <h2 class="DefMargin brd"> Список товаров: </h2>
-
+<div class="container-fluid"  style="border: darkslategray; border-style: solid; min-height: 1000px; padding: 50px;">
+    <div class="row ">
 
 
-                    <div th:each="item : ${ItemsList}" class="col-md-4" style="height:410px;">
-                        <div class="card" style="margin:30px;">
+<br>
+
+        <div  class="col-md-2" style="height:410px;">
+
+            <form class="form-inline" action="/items">
+
+                <select class="custom-select my-1 mr-sm-2"  name="brand">
+                    <option selected>Бренд</option>
+                    <option th:each="brand : ${brandList}" th:value="${brand.BrandName()}"  th:text="${brand.BrandName()}"></option>
+                </select>
+
+
+<br>
+                    <select class="custom-select my-1 mr-sm-2"  name="category">
+                        <option selected>Категория</option>
+                        <option value="CPU">CPU</option>
+                        <option th:each="category : ${groupList}" th:value="${category.SectionName()}"  th:text="${category.SectionName()}"></option>
+
+                    </select>
+                    <br>
+                    <input type="number"  name="min_price" class="form-control" placeholder="Минимальная цена">
+                    <br>
+                    <input type="number" name="max_price"  class="form-control" placeholder="Максимальная цена">
+                    <br>
+                <button type="submit" class="btn btn-primary my-1">Submit</button>
+            </form>
+        </div>
+
+
+
+        <div  class="col-md-10" >
+            <div class="row ">
+                    <div th:each="item : ${ItemsList}" class="col-md-3" STYLE="margin: 10px; border-color: darkslategray; border-style: solid;  " >
+
+
                                 <h3 class="card-text" th:text="${item.getModel()}"></h3>
-                                <img th:src="${item.getPicture()}" class="card-img-top" alt="..." style="width:320px; margin:5px;">
+                                <img th:src="${item.getPicture()}" class="card-img-top" alt="..." style="width:200px; margin:5px;">
 
                             <div class="card-body">
 
@@ -35,12 +66,13 @@
                                     <input type="submit" value="add to cart" class="btn btn-primary"/>
                                 </form>
                             </div>
-
-                        </div>
+                    </div>
 
                     </div>
 
 
+
+    </div>
 
     </div>
 </div>

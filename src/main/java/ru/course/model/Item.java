@@ -8,10 +8,10 @@ import java.io.Serializable;
 
 
 @Component("itemlist")
-public class ItemList implements Serializable {
+public class Item implements Serializable {
 
-    public ItemList(int id, Brands BrandId, Group GroupId, String Model,
-                    int price,int NumBrand, int NumGroup){
+    public Item(int id, Brands BrandId, Group GroupId, String Model,
+                int price, int NumBrand, int NumGroup){
         super();
         this.id=id;
         this.BrandId=BrandId;
@@ -26,7 +26,7 @@ public class ItemList implements Serializable {
 
     }
 
-    public ItemList(){
+    public Item(){
 
 
     }

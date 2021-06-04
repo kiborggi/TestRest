@@ -3,10 +3,8 @@ package ru.course.dao.products;
 
 import ru.course.dao.products.interfaces.IBrandDAO;
 import ru.course.dao.products.interfaces.IGroupDAO;
-import ru.course.dao.products.interfaces.I_DetailedOrdersDAO;
 import ru.course.dao.products.interfaces.I_ItemDAO;
-import ru.course.model.DetailedOrders;
-import ru.course.model.ItemList;
+import ru.course.model.Item;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -28,9 +26,9 @@ public class ItemListDAO implements I_ItemDAO {
     }
 
 
-    public int insert(ItemList itemList) throws SQLException {
+    public int insert(Item item) throws SQLException {
 
-        System.out.println(itemList.getBrandId().id()+", "+itemList.getGroupId().id()+", "+itemList.getModel());
+        System.out.println(item.getBrandId().id()+", "+ item.getGroupId().id()+", "+ item.getModel());
 
         String query = "Insert into models(BrandId, GroupId, Model,Price) VALUES(?,?,?,?)";
 
@@ -39,10 +37,10 @@ public class ItemListDAO implements I_ItemDAO {
 
             try(PreparedStatement statement=conn.prepareStatement(query)){
 
-                statement.setInt(1,itemList.getBrandId().id());
-                statement.setInt(2,itemList.getGroupId().id());
-                statement.setString(3,itemList.getModel());
-                statement.setInt(4,itemList.Price());
+                statement.setInt(1, item.getBrandId().id());
+                statement.setInt(2, item.getGroupId().id());
+                statement.setString(3, item.getModel());
+                statement.setInt(4, item.Price());
 
 
 
@@ -78,9 +76,9 @@ public class ItemListDAO implements I_ItemDAO {
     }
 
 
-    public int update(ItemList itemList, int id) throws SQLException {
+    public int update(Item item, int id) throws SQLException {
 
-        System.out.println(itemList.getBrandId().id()+", "+itemList.getGroupId().id()+", "+itemList.getModel());
+        System.out.println(item.getBrandId().id()+", "+ item.getGroupId().id()+", "+ item.getModel());
 
         String query = "Update models set BrandId =?, GroupId=?, Model=?,Price=? where Id=?";
 
@@ -88,10 +86,10 @@ public class ItemListDAO implements I_ItemDAO {
         try(Connection conn= ConnectionPool.getConnection()) {
 
             PreparedStatement statement=conn.prepareStatement(query);
-            statement.setObject(1,itemList.getBrandId().id());
-            statement.setObject(2,itemList.getGroupId().id());
-            statement.setString(3,itemList.getModel());
-            statement.setInt(4,itemList.Price());
+            statement.setObject(1, item.getBrandId().id());
+            statement.setObject(2, item.getGroupId().id());
+            statement.setString(3, item.getModel());
+            statement.setInt(4, item.Price());
             statement.setInt(5,id);
 
 
@@ -106,7 +104,7 @@ public class ItemListDAO implements I_ItemDAO {
     }
 
 
-    public ItemList getByPK(int id1) throws SQLException {
+    public Item getByPK(int id1) throws SQLException {
 
         String query = "SELECT * from models where  Id="+id1+"";
 
@@ -135,7 +133,7 @@ public class ItemListDAO implements I_ItemDAO {
 
             }
 
-            return new ItemList(id,iBrandDAO.getByPK(brandId),
+            return new Item(id,iBrandDAO.getByPK(brandId),
                     iGroupDAO.getByPK(sectionId),Model,price,brandId,sectionId);
 
         } catch (SQLException e) {
@@ -147,9 +145,9 @@ public class ItemListDAO implements I_ItemDAO {
 
 
 
-    public ArrayList<ItemList> getAll() throws SQLException {
+    public ArrayList<Item> getAll() throws SQLException {
 
-        ArrayList<ItemList> listItems=new ArrayList<>();
+        ArrayList<Item> listItems=new ArrayList<>();
 
         String query = "SELECT * from models";
 
@@ -158,9 +156,9 @@ public class ItemListDAO implements I_ItemDAO {
 
             Statement statement=conn.createStatement();
             ResultSet res=statement.executeQuery(query);
-            ItemList item;
+            Item item;
             while(res.next()){
-                item= new ItemList(res.getInt("Id"),iBrandDAO.getByPK(res.getInt("BrandId")),
+                item= new Item(res.getInt("Id"),iBrandDAO.getByPK(res.getInt("BrandId")),
                         iGroupDAO.getByPK(res.getInt("GroupId")),
                         res.getString("Model"),
                         res.getInt("Price"),res.getInt("BrandId"),

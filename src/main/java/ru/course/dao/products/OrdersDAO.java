@@ -131,10 +131,13 @@ public class OrdersDAO implements I_OrderDAO {
             Statement statement=conn.createStatement();
             ResultSet res=statement.executeQuery(query);
             while(res.next()){
-                listOrders.add(
-                        new Orders(res.getInt("Id"),res.getInt("UserId"),
-                                res.getInt("OrderCode"),res.getString("Status"))
-                );
+                Orders order;
+                order = new Orders();
+                order.setId(res.getInt("Id"));
+                order.setUserId(res.getInt("UserId"));
+                order.setStatus(res.getString("Status"));
+                order.setOrderCode(res.getInt("OrderCode"));
+                listOrders.add(order);
 
             }
 
