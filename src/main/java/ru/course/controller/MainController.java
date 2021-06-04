@@ -15,6 +15,8 @@ import ru.course.dao.products.interfaces.*;
 import ru.course.model.AppUser;
 
 
+import ru.course.model.Brands;
+import ru.course.model.Group;
 import ru.course.model.Item;
 import ru.course.utils.WebUtils;
 import org.springframework.security.core.Authentication;
@@ -39,11 +41,17 @@ public class MainController {
 
     @RequestMapping(value = { "/",  }, method = RequestMethod.GET)
     public String GetItems(Model model) throws SQLException {
+
+        for (Group g : iGroupDAO.getAll()){
+            System.out.println(g.SectionName());
+        }
         model.addAttribute("groupList",iGroupDAO.getAll());
 
         model.addAttribute("brandList",iBrandDAO.getAll());
 
         model.addAttribute("ItemsList", i_itemDAO.getAll());
+
+
         return "Shop/ItemsList";
     }
 

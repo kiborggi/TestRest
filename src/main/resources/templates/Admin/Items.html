@@ -10,11 +10,59 @@
 </head>
 
 <body>
+<th:block th:include="/_menu"></th:block>
 
 <div class="container">
     <div class="row  justify-content-md-center">
 
-        <h2 class="DefMargin brd"> Список товаров: </h2>
+       <div class="container">
+
+           <h2>
+               Создать товар:
+           </h2>
+ <br>
+
+           <form method="post" action="/admin/CreateItem">
+               <input type="text" class="form-control" placeholder="Название" name="name">
+               <input type="number" class="form-control" placeholder="Цена" name="price">
+               <input type="text" class="form-control" placeholder="Ссылка на картинку" name="pic">
+               <select class="custom-select my-1 mr-sm-2"  name="brand">
+                   <option selected>Бренд</option>
+                   <option th:each="brand : ${brandList}" th:value="${brand.id()}"  th:text="${brand.BrandName()}"></option>
+               </select>
+               <select class="custom-select my-1 mr-sm-2"  name="category">
+                   <option selected>Категория</option>
+
+                   <option th:each="category : ${groupList}" th:value="${category.id()}"  th:text="${category.SectionName()}"></option>
+
+               </select>
+               <button type="submit" class="btn btn-primary my-1">Создать</button>
+           </form>
+
+           <br>
+
+           <h2>
+               Создать бренд:
+           </h2>
+           <br>
+
+           <form method="post" action="/admin/CreadeBrand">
+               <input type="text" class="form-control" placeholder="Название" name="name">
+
+               <button type="submit" class="btn btn-primary my-1">Создать</button>
+           </form>
+           <br>
+
+           <h2>
+               Создать категрию:
+           </h2>
+           <br>
+
+           <form method="post" action="/admin/CreadeCategory">
+               <input type="text" class="form-control" placeholder="Название" name="name">
+               <button type="submit" class="btn btn-primary my-1">Создать</button>
+           </form>
+       </div>
 
 
 

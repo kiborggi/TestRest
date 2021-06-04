@@ -6,13 +6,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.course.dao.AppUserDAO;
 import ru.course.dao.products.DAO_Factory;
-import ru.course.dao.products.interfaces.I_DetailedOrdersDAO;
-import ru.course.dao.products.interfaces.I_ItemDAO;
-import ru.course.dao.products.interfaces.I_OrderDAO;
-import ru.course.model.AppUser;
-import ru.course.model.DetailedOrders;
-import ru.course.model.Item;
-import ru.course.model.Orders;
+import ru.course.dao.products.interfaces.*;
+import ru.course.model.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
@@ -30,6 +25,9 @@ public class AdminController {
     private final I_ItemDAO i_itemDAO= DAO_Factory.getItemListDAO();
     private final I_OrderDAO orderDAO = DAO_Factory.getOrdersDAO();
     private final I_DetailedOrdersDAO detailedOrdersDAO = DAO_Factory.getDetailedOrdersDAO();
+    private final IBrandDAO iBrandDAO = DAO_Factory.getItemBrandDAO();
+    private final IGroupDAO iGroupDAO = DAO_Factory.getItemGroupDAO();
+
 
     @GetMapping("/")
     public String adminka()  {
@@ -57,14 +55,13 @@ public class AdminController {
         return "Admin/Orders";
     }
     @GetMapping("/Items")
-    public String Items(Model model)  {
-        List<Item> itemList = new ArrayList<>();
-        try {
-            itemList = i_itemDAO.getAll();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        model.addAttribute("itemList", itemList);
+    public String Items(Model model) throws SQLException {
+        model.addAttribute("groupList",iGroupDAO.getAll());
+
+        model.addAttribute("brandList",iBrandDAO.getAll());
+
+        model.addAttribute("ItemsList", i_itemDAO.getAll());
+
 
         return "Admin/Items";
     }
@@ -109,6 +106,35 @@ public class AdminController {
         orders.setStatus(string);
         orderDAO.update(orders,Integer.parseInt(id));
         return "redirect:/admin/Orders";
+    }
+    @PostMapping("/CreateItem")
+    protected String CreadeItem ( Model model,@RequestParam ("pic") String pic,@RequestParam ("name") String name, @RequestParam ("price") String price ,@RequestParam ("category") String category,@RequestParam ("brand") String brand  ) throws SQLException {
+         Item item = new Item();
+            item.setModel(name);
+            item.setPrice(Integer.parseInt(price));
+            item.setPicture(pic);
+            item.setBrandId(iBrandDAO.getByPK(Integer.parseInt(brand)));
+            item.setGroupId(iGroupDAO.getByPK(Integer.parseInt(category)));
+        model.addAttribute("groupList",iGroupDAO.getAll());
+
+        model.addAttribute("brandList",iBrandDAO.getAll());
+
+
+        i_itemDAO.insert(item);
+
+        return "redirect:/admin/Items";
+    }
+    @PostMapping("/CreadeBrand")
+    protected String CreadeBrand ( @RequestParam ("name") String name ) throws SQLException {
+        iBrandDAO.insert(new Brands(1,name));
+
+        return "redirect:/admin/Items";
+    }
+    @PostMapping("/CreadeCategory")
+    protected String CreadeCategory (@RequestParam ("name") String name ) throws SQLException {
+
+        iGroupDAO.insert(new Group(1,name));
+        return "redirect:/admin/Items";
     }
 
 }

@@ -14,7 +14,7 @@ public class ItemGroupDAO implements IGroupDAO {
 
     public int insert(Group group) throws SQLException {
 
-        String query = "Insert into groupse(Group1) VALUES(?)";
+        String query = "INSERT INTO `groups` ( `Group`) VALUES (?);";
 
         try(Connection conn= ConnectionPool.getConnection()) {
 
@@ -37,7 +37,7 @@ public class ItemGroupDAO implements IGroupDAO {
 
     public int delete(int id) throws SQLException {
 
-        String query = "DELETE from groupse where Id=?";
+        String query = "DELETE from groups where Id=?";
 
 
 
@@ -59,7 +59,7 @@ public class ItemGroupDAO implements IGroupDAO {
 
     public int update(Group group, int id) throws SQLException {
 
-        String query = "Update groupse set Group1 =? where Id=?";
+        String query = "Update groups set Group =? where Id=?";
 
         try(Connection conn= ConnectionPool.getConnection()) {
 
@@ -112,7 +112,7 @@ public class ItemGroupDAO implements IGroupDAO {
 
         List<Group> listGroup=new ArrayList<>();
 
-        String query = "SELECT * from groupse";
+        String query = "SELECT * from groups";
 
 
 
@@ -123,7 +123,7 @@ public class ItemGroupDAO implements IGroupDAO {
             ResultSet res=statement.executeQuery(query);
             while(res.next()){
                 listGroup.add(
-                        new Group(res.getInt("Id"),res.getString("Group1"))
+                        new Group(res.getInt("Id"),res.getString("Group"))
                 );
 
             }

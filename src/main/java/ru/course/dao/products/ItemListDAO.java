@@ -28,9 +28,9 @@ public class ItemListDAO implements I_ItemDAO {
 
     public int insert(Item item) throws SQLException {
 
-        System.out.println(item.getBrandId().id()+", "+ item.getGroupId().id()+", "+ item.getModel());
 
-        String query = "Insert into models(BrandId, GroupId, Model,Price) VALUES(?,?,?,?)";
+
+        String query = "Insert into models(BrandId, GroupId, Model,Price,picture) VALUES(?,?,?,?,?)";
 
         try(Connection conn= ConnectionPool.getConnection()) {
 
@@ -41,6 +41,7 @@ public class ItemListDAO implements I_ItemDAO {
                 statement.setInt(2, item.getGroupId().id());
                 statement.setString(3, item.getModel());
                 statement.setInt(4, item.Price());
+                statement.setString(5, item.getPicture());
 
 
 
