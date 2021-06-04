@@ -9,9 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.course.dao.AppUserDAO;
 import ru.course.dao.products.DAO_Factory;
-import ru.course.dao.products.interfaces.I_DetailedOrdersDAO;
-import ru.course.dao.products.interfaces.I_ItemDAO;
-import ru.course.dao.products.interfaces.I_OrderDAO;
+import ru.course.dao.products.interfaces.*;
 import ru.course.model.DetailedOrders;
 import ru.course.model.Item;
 import ru.course.model.OrderList;
@@ -27,6 +25,8 @@ import java.util.Random;
 
 @Controller @RequestMapping(value = { "/Shop", })
 public class ShopController {
+    private final IBrandDAO iBrandDAO = DAO_Factory.getItemBrandDAO();
+    private final IGroupDAO iGroupDAO = DAO_Factory.getItemGroupDAO();
     private final I_ItemDAO i_itemDAO= DAO_Factory.getItemListDAO();
     private final I_OrderDAO orderDAO = DAO_Factory.getOrdersDAO();
     private final I_DetailedOrdersDAO detailedOrdersDAO = DAO_Factory.getDetailedOrdersDAO();
@@ -320,55 +320,19 @@ public class ShopController {
         return "Shop/OrderDetails";
     }
 
+    @GetMapping("/Search")
+    protected String Search ( @RequestParam("searchString") String searchString, Model model,HttpServletRequest req)
+            throws SQLException {
 
+        model.addAttribute("groupList",iGroupDAO.getAll());
 
+        model.addAttribute("brandList",iBrandDAO.getAll());
 
-//
-//
-//    @Override
-//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//
-//
-//        HttpSession session = req.getSession();
-//        IOrderDAO iOrderDAO= DAO_Factory.getOrdersDAO();
-//
-//        List<Orders> orderlist = (List<Orders>)session.getAttribute("Orderslist");
-//
-//
-//        try {
-//
-//            int id = Integer.parseInt(req.getParameter("id"));
-//
-//
-//            Orders order=iOrderDAO.getByPK(id);
-//
-//            int j=0;
-//            boolean flag=false;
-//            for (Orders vv:orderlist
-//            ) {
-//                System.out.println(j);
-//                if(order.id()==vv.id() && !flag){
-//                    orderlist.remove(j);
-//                    flag=true;
-//                    System.out.println("Item was removed from the list");
-//
-//                    session.removeAttribute("Orderslist");
-//                    session.setAttribute("Orderslist", orderlist);
-//                    resp.sendRedirect("/PurchaseList");
-//                    return;
-//                }
-//                j++;
-//            }
-//
-//
-//        }
-//        catch(Exception ex) {
-//            getServletContext().getRequestDispatcher("/").forward(req, resp);
-//        }
-//
-//
-//
-//    }
+        model.addAttribute("ItemsList", i_itemDAO.search(searchString));
+
+        return "Shop/ItemsList";
+    }
+
 
 
 

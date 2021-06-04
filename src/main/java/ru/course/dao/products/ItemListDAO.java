@@ -180,4 +180,48 @@ public class ItemListDAO implements I_ItemDAO {
             return null;
         }
     }
+
+    public ArrayList<Item> search(String searchString){
+        String queryItem = "SELECT * FROM `models` WHERE `Model` LIKE ?";
+
+
+
+        ArrayList<Item> listItems = new ArrayList<>();
+
+        try(Connection conn= ConnectionPool.getConnection()) {
+
+
+            try(PreparedStatement statement=conn.prepareStatement(queryItem)){
+                statement.setString(1,"%" + searchString + "%" );
+               ResultSet res = statement.executeQuery();
+                Item item;
+
+                while(res.next()){
+                    item= new Item(res.getInt("Id"),iBrandDAO.getByPK(res.getInt("BrandId")),
+                            iGroupDAO.getByPK(res.getInt("GroupId")),
+                            res.getString("Model"),
+                            res.getInt("Price"),res.getInt("BrandId"),
+                            res.getInt("GroupId"));
+                    item.setPicture(res.getString("Picture"));
+                    listItems.add(item);
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+        } catch (SQLException e) {
+            System.out.println("Connection failed");
+            e.printStackTrace();
+
+            return listItems;
+        }
+        return listItems;
+    }
 }

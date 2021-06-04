@@ -3,6 +3,7 @@ package ru.course.dao.products.interfaces;
 import ru.course.model.Item;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public interface I_ItemDAO {
@@ -13,6 +14,7 @@ public interface I_ItemDAO {
     int update(Item T, int id) throws SQLException;
     Item getByPK(int id) throws SQLException;
     List<Item> getAll() throws SQLException;
+    ArrayList<Item> search(String searchString);
 
 
 }
