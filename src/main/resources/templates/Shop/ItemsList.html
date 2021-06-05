@@ -24,15 +24,15 @@
 
             <form class="form-inline" action="/items">
 
-                <select class="custom-select my-1 mr-sm-2"  name="brand">
-                    <option selected>Бренд</option>
+                <select class="custom-select my-1 mr-sm-2"   name="brand">
+                    <option value="" >Бренд</option>
                     <option th:each="brand : ${brandList}" th:value="${brand.BrandName()}"  th:text="${brand.BrandName()}"></option>
                 </select>
 
 
 <br>
                     <select class="custom-select my-1 mr-sm-2"  name="category">
-                        <option selected>Категория</option>
+                        <option value="">Категория</option>
 
                         <option th:each="group : ${groupList}" th:value="${group.SectionName()}"  th:text="${group.SectionName()}"></option>
 

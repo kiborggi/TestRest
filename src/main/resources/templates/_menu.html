@@ -4,17 +4,15 @@
     <title>Electronic Shop</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" charset="UTF-8">
 
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css} "/>
-    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
 
+    <link th:href="@{/styles/cssandjs/main.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
-    <link href=https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css rel="stylesheet"
-          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"/>
-</head>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
@@ -56,6 +54,50 @@
             </ul>
         </div>
     </div>
+
+    <div class="fixed-top">
+        <div class="collapse" id="navbarToggleExternalContent">
+            <div class="bg-dark p-4">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a  class="nav-link"  th:href="@{/}">Каталог</a>
+                    </li>
+
+                    <li class="nav-item">
+                    <a class="nav-link" th:if="${#request.userPrincipal != null}" href="/Shop/Cart">Корзина</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:if="${#request.userPrincipal != null}" href="/Shop/Orders">Заказы</a>
+                </li>
+
+                <li class="nav-item">
+                    <a  class="nav-link" th:if="${#request.userPrincipal == null}" th:href="@{/login}">Войти</a>
+                </li>
+                <li class="nav-item">
+                    <a  class="nav-link" th:if="${#request.userPrincipal == null}" th:href="@{/register}">Регистрация</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:if="${#request.userPrincipal != null}" th:href="@{/logout}"> Выйти</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="hasRole('ADMIN')"  th:href="@{/admin}"> Админка</a>
+                </li>
+
+
+
+                </ul>
+            </div>
+        </div>
+        <nav class="navbar navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+    </div>
+
+
 </nav>
 
 
