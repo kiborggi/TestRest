@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Login</title>
+</head>
+<body>
+<!-- Include _menu.html -->
+<th:block th:include="/_menu"></th:block>
+
+
+
+
+
+
+
+
+<div class="container-fluid"  style="border: darkslategray; border-style: solid; min-height: 1000px; padding: 50px;">
+    <div class="row ">
+
+
+<br>
+
+        <div  class="col-md-2" style="height:410px;">
+
+            <form class="form-inline" action="/items">
+
+                <select class="custom-select my-1 mr-sm-2"  name="brand">
+                    <option selected>Бренд</option>
+                    <option th:each="brand : ${brandList}" th:value="${brand.BrandName()}"  th:text="${brand.BrandName()}"></option>
+                </select>
+
+
+<br>
+                    <select class="custom-select my-1 mr-sm-2"  name="category">
+                        <option selected>Категория</option>
+
+                        <option th:each="group : ${groupList}" th:value="${group.SectionName()}"  th:text="${group.SectionName()}"></option>
+
+                    </select>
+                    <br>
+                    <input type="number"  name="min_price" class="form-control" placeholder="Минимальная цена">
+                    <br>
+                    <input type="number" name="max_price"  class="form-control" placeholder="Максимальная цена">
+                    <br>
+                <button type="submit" class="btn btn-primary my-1">Submit</button>
+            </form>
+        </div>
+
+
+
+        <div  class="col-md-8" >
+            <div class="row ">
+                    <div th:each="item : ${ItemsList}" class="col-md-3" STYLE="margin: 10px; border-color: darkslategray; border-style: solid;  " >
+
+
+                                <h3 class="card-text" th:text="${item.getModel()}"></h3>
+                                <img th:src="${item.getPicture()}" class="card-img-top" alt="..." style="width:200px; margin:5px;">
+
+                            <div class="card-body">
+
+                                <p class="card-text"> Бренд: <span th:text= "${ item.getBrandId().BrandName()}"></span></p>
+                                <p class="card-text"> Категория: <span th:text= "${ item.getGroupId().SectionName()}"></span></p>
+                                <p class="card-text"> Цена: <span th:text= "${ item.Price()}"></span> руб.</p>
+
+                                <form th:action="@{/Shop/Cart{id}(id=${item.id()})}" th:object="${item}" method="post" style="display:inline;">
+                                    <input type="submit" value="add to cart" class="btn btn-primary"/>
+                                </form>
+                            </div>
+                    </div>
+
+                    </div>
+
+
+
+    </div>
+        <div  class="col-md-2" >
+        <div class="search">
+            <form action="/Shop/Search" class="searchForm" method="get">
+                <input type="search" name="searchString" placeholder="Поиск по каталогу" class="input" />
+                <input type="submit" name="" value="" class="submit" />
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

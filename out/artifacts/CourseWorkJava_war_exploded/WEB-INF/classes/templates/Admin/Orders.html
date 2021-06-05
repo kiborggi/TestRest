@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" charset="UTF-8">
+    <title>Purchased Items</title>
+
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.6.0/css/bootstrap.min.css} "/>
+
+    <link href=https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"/>
+
+
+    <link rel="stylesheet" type="text/css" th:href="@{/resources/static/css/StyleSheet.css}"/>
+
+
+
+</head>
+<body>
+
+<th:block th:include="/_menu"></th:block>
+
+
+</div>
+
+<div class="container">
+    <div class="row">
+        <h2></h2>
+        <h2 class="DefMargin brd">Orders </h2>
+        <div class="col-sm-4">
+
+
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#Order</th>
+                    <th scope="col">#OrderCode</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">User ID</th>
+                    <th scope="col"></th>
+                    <th scope="col">Изменить статус</th>
+                </tr>
+                </thead>
+
+
+                <tbody>
+
+                <tr th:each="item: ${orderList}">
+
+                    <td th:text="${item.getId()}"></td>
+                    <td th:text="${item.getOrderCode()}"></td>
+                    <td th:text="${item.getStatus()}"></td>
+
+                    <td> <a th:href="@{/admin/UserDetails/{id}(id=${item.getUserId()})}"> <span th:text="${item.getUserId()}"> </span> </a> </td>
+
+                    <td>
+                        <form method="GET" th:action="@{/admin/OrderDetails/{Id}(Id=${item.getId()})}" th:object="${item}"
+                              style="display:inline;">
+                            <input type="submit" value="Детали" class="btn btn-primary editable">
+                        </form>
+                    </td>
+
+                    <td>
+
+                        <form action="/admin/EditOrder" method="post">
+                            <input name ="string" type = text>
+                            <input type="hidden" name="id" th:value="${item.getId()}" >
+                            <button type="submit" class="btn btn-secondary" >Изменить статус</button>
+
+                        </form>
+                    </td>
+
+                </tr>
+
+                </tbody>
+
+
+            </table>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+</body>
+</html>

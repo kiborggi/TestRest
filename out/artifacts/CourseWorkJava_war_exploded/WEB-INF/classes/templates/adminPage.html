@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title>Админка</title>
+</head>
+<body>
+
+<th:block th:include="/_menu"></th:block>
+
+
+<div  class="container ">
+
+    <br>
+    <div class="row align-items-center">
+        <div class="col">
+            <a class="nav-link" href="/admin/Users">
+            <h3>
+                Пользователи
+            </h3>
+        </a>
+        </div>
+        <div class="col">
+            <a class="nav-link" href="/admin/Orders">
+                <h3>
+                    Заказы
+                </h3>
+            </a>
+
+        </div>
+        <div class="col">
+            <a class="nav-link" href="/admin/Items">
+                <h3>
+                    Товары
+                </h3>
+            </a>
+
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+
+</body>
+</html>
