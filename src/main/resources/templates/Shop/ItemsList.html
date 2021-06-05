@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Login</title>
+    <title>Каталог</title>
 </head>
 <body>
 <!-- Include _menu.html -->
@@ -68,9 +68,24 @@
                             </div>
                     </div>
 
+
+
+
+
                     </div>
 
+            <div th:if="${numberOfPages != 1}">
 
+                Странцы:
+
+                <span th:with="currentUrl=(${@currentUrlWithoutParam.apply('page')})" th:each="page : ${#numbers.sequence( 1, __${numberOfPages}__)}">
+
+
+                    <a th:text="${page}" th:href="@{${currentUrl}(page=${page})}"> </a>
+
+                </span>
+
+            </div>
 
     </div>
         <div  class="col-md-2" >

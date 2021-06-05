@@ -3,7 +3,10 @@ package ru.course.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.course.dao.AppRoleDAO;
 import ru.course.dao.AppUserDAO;
 import ru.course.model.AppUser;
@@ -53,6 +56,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 appUser.getEncrytedPassword(), grantList);
 
         return userDetails;
+    }
+
+    @Bean
+    public Function<String, String> currentUrlWithoutParam() {
+        return param ->   ServletUriComponentsBuilder.fromCurrentRequest().replaceQueryParam(param).toUriString();
     }
 
 }

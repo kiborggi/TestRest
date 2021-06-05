@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -38,40 +39,53 @@ public class MainController {
     private final I_DetailedOrdersDAO detailedOrdersDAO = DAO_Factory.getDetailedOrdersDAO();
     private final IBrandDAO iBrandDAO = DAO_Factory.getItemBrandDAO();
     private final IGroupDAO iGroupDAO = DAO_Factory.getItemGroupDAO();
+    int numberItemsOnPage = 9;
 
-    @RequestMapping(value = { "/",  }, method = RequestMethod.GET)
     public String GetItems(Model model) throws SQLException {
 
         for (Group g : iGroupDAO.getAll()){
             System.out.println(g.SectionName());
         }
+
+
         model.addAttribute("groupList",iGroupDAO.getAll());
 
         model.addAttribute("brandList",iBrandDAO.getAll());
 
+        List list = i_itemDAO.getAll();
+
         model.addAttribute("ItemsList", i_itemDAO.getAll());
+
+        int numberOfPages = list.size() / numberItemsOnPage +1;
+        System.out.println(numberOfPages);
+
+
+        model.addAttribute("numberOfPages", numberOfPages);
 
 
         return "Shop/ItemsList";
     }
 
-    @RequestMapping(value = {  "/items" }, method = RequestMethod.GET)
-    public String parseItems(Model model, @RequestParam(required = false) String brand, @RequestParam(required = false) String category, @RequestParam(required = false) String min_price, @RequestParam(required = false) String max_price) throws SQLException {
+    @RequestMapping(value = {  "/items","/" }, method = RequestMethod.GET)
+    public String parseItems(@RequestParam(required = false) String page,Model model, @RequestParam(required = false) String brand, @RequestParam(required = false) String category, @RequestParam(required = false) String min_price, @RequestParam(required = false) String max_price) throws SQLException {
         model.addAttribute("groupList",iGroupDAO.getAll());
 
         model.addAttribute("brandList",iBrandDAO.getAll());
 
         model.addAttribute("ItemsList", i_itemDAO.getAll());
         List<Item> list = i_itemDAO.getAll();
-        for(Item i : list){
-            System.out.println(i.getGroupId().SectionName());
+        int pageNumber;
+
+        if(page == null || page.equals("")) {
+            pageNumber = 0;
+        }
+        else{
+            pageNumber = Integer.parseInt(page);
+            pageNumber -=1;
+            pageNumber = Math.abs(pageNumber);
         }
 
-
         if(min_price != null && !min_price.equals("")) {
-
-
-
             list.removeIf(item -> item.getPrice() < Integer.parseInt(min_price));
         }
         if (max_price != null && !max_price.equals("")){
@@ -83,8 +97,12 @@ public class MainController {
             System.out.println(category);
             list.removeIf(item -> !item.getGroupId().SectionName().equals(category));
         }
+        int numberOfPages = list.size() / numberItemsOnPage +1;
+        System.out.println(numberOfPages);
+        list =  list.stream().skip(pageNumber*numberItemsOnPage).limit(numberItemsOnPage).collect(Collectors.toList());
 
         model.addAttribute("ItemsList", list);
+        model.addAttribute("numberOfPages", numberOfPages);
         return "Shop/ItemsList";
     }
 
