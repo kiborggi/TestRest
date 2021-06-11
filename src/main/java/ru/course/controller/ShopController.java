@@ -329,7 +329,7 @@ public class ShopController {
         model.addAttribute("brandList",iBrandDAO.getAll());
 
         model.addAttribute("ItemsList", i_itemDAO.search(searchString));
-
+        model.addAttribute("numberOfPages", 1);
         return "Shop/ItemsList";
     }
 
