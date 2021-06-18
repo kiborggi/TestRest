@@ -10,10 +10,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import ru.course.dao.AppUserDAO;
 import ru.course.dao.products.DAO_Factory;
 import ru.course.dao.products.interfaces.*;
-import ru.course.model.DetailedOrders;
-import ru.course.model.Item;
-import ru.course.model.OrderList;
-import ru.course.model.Orders;
+import ru.course.model.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,6 +36,10 @@ public class ShopController {
 
         HttpSession session = req.getSession();
 
+
+        List<DeliveryType> deliveryTypes = orderDAO.getAllDeliveryTypes();
+
+        model.addAttribute("deliveryTypes",deliveryTypes);
         try{
 
             List<Item> items = (List<Item>)session.getAttribute("ItemsList");
@@ -185,7 +186,7 @@ public class ShopController {
         catch(Exception ex){
 
             System.out.println("Failed to update count");
-            return new RedirectView("/Cart");
+            return new RedirectView("/Shop/Cart");
         }
 
 
@@ -251,12 +252,14 @@ public class ShopController {
     private AppUserDAO appUserDAO;
 
     @PostMapping("/AddOrder")
-    protected RedirectView Add_Order(Model model,HttpServletRequest req,Principal principal)
+    protected RedirectView Add_Order(Model model,HttpServletRequest req,Principal principal, @RequestParam(required = false) String address, @RequestParam(required = false) int deliveryType)
             throws SQLException {
         User loginedUser = (User) ((Authentication) principal).getPrincipal();
       Long id =  appUserDAO.findUserAccount(loginedUser.getUsername()).getUserId();
+
+
         HttpSession session = req.getSession();
-    MainController contr1 = new MainController();
+
 
         List<Item> items = (List<Item>)session.getAttribute("ItemsList");
         if (items == null){
@@ -267,6 +270,8 @@ public class ShopController {
         try {
             //создаем новый заказ
             Orders order=new Orders(0,new Random().nextInt(1000000),id.intValue(),"in progress");
+            order.setAddress(address);
+            order.setDeliveryTypeID(deliveryType);
             iOrderDAO.insert(order);
 
             int MaxIndex=0;
@@ -283,7 +288,7 @@ public class ShopController {
                 System.out.println("Inserted "+result+" row");
 
             }
-            items = new ArrayList<Item>();
+
             return new RedirectView("/Shop/Orders");
 
 
@@ -301,6 +306,7 @@ public class ShopController {
         User loginedUser = (User) ((Authentication) principal).getPrincipal();
         Long userId =  appUserDAO.findUserAccount(loginedUser.getUsername()).getUserId();
         Orders order = orderDAO.getByPK(orderId);
+        DeliveryType deliveryType  = orderDAO.getDeliveryType(order);
         if (order.getUserId() != userId){
             return "redirect:/";
         }
@@ -317,21 +323,11 @@ public class ShopController {
         model.addAttribute("order",order);
         model.addAttribute("detailedOrdersList",detailedOrdersList);
         model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("deliveryType",deliveryType);
         return "Shop/OrderDetails";
     }
 
-    @GetMapping("/Search")
-    protected String Search ( @RequestParam("searchString") String searchString, Model model,HttpServletRequest req)
-            throws SQLException {
 
-        model.addAttribute("groupList",iGroupDAO.getAll());
-
-        model.addAttribute("brandList",iBrandDAO.getAll());
-
-        model.addAttribute("ItemsList", i_itemDAO.search(searchString));
-        model.addAttribute("numberOfPages", 1);
-        return "Shop/ItemsList";
-    }
 
 
 

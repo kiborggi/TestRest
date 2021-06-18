@@ -82,7 +82,19 @@
                       th:action="@{/Shop/AddOrder}"
                       style="display:inline;">
 
-                    <input type="submit" value="Buy" class="btn btn-primary editable">
+                <input type = text name="address" placeholder="Адрес Доставки" required style="margin: 20px;">
+
+
+                    <select class="custom-select my-1 mr-sm-2"  name="deliveryType" required style="margin: 20px;">
+                        <option value="">Категория</option>
+
+                        <option th:each="deliveryType : ${deliveryTypes}" th:value="${deliveryType.getId()}"  th:text="${deliveryType.getName()}"></option>
+
+                    </select>
+
+                    <input type="submit" value="Buy" class="btn btn-primary editable" style="margin: 20px;" >
+
+
                 </form>
                 </tbody>
             </table>

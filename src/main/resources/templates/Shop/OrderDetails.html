@@ -15,6 +15,10 @@
 
         <h5 class="card-text"> Статус заказа: <span th:text= "${order.getStatus()}"></span></h5>
 
+    <h5 class="card-text"> Адрес доствки: <span th:text= "${order.getAddress()}"></span></h5>
+
+    <h5 class="card-text"> Тип доставки : <span th:text= "${deliveryType.getName()}"></span></h5>
+
     <br>
 
         <h2 class=""> Список товаров заказе: </h2>

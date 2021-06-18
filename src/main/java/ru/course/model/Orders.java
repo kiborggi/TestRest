@@ -31,8 +31,38 @@ public class Orders {
     //fields
     private int Id;
     private int UserId;
+
     private int OrderCode; // "unique" number of the order
+    private int deliveryTypeID;
+    private String Address;
+
+    public Orders(int id, int userId, int orderCode, int deliveryTypeID, String address, String status) {
+        Id = id;
+        UserId = userId;
+        OrderCode = orderCode;
+        this.deliveryTypeID = deliveryTypeID;
+        Address = address;
+        Status = status;
+    }
+
+    public int getDeliveryTypeID() {
+        return deliveryTypeID;
+    }
+
+    public void setDeliveryTypeID(int deliveryTypeID) {
+        this.deliveryTypeID = deliveryTypeID;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
     private String Status;
+
 
 
     //set

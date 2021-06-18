@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import javax.management.openmbean.CompositeData;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class MainController {
@@ -165,10 +166,6 @@ public class MainController {
     }
 
 
-
-
-
-
     @RequestMapping(value = "/register", method=RequestMethod.GET)
     public String registr(Model model) {
         AppUser foo = new AppUser();
@@ -188,6 +185,19 @@ public class MainController {
 
         appUserDAO.addUser(foo);
         return "welcomePage";
+    }
+
+    @GetMapping("/Search")
+    protected String Search (@RequestParam("searchString") String searchString, Model model, HttpServletRequest req)
+            throws SQLException {
+
+        model.addAttribute("groupList",iGroupDAO.getAll());
+
+        model.addAttribute("brandList",iBrandDAO.getAll());
+
+        model.addAttribute("ItemsList", i_itemDAO.search(searchString));
+        model.addAttribute("numberOfPages", 1);
+        return "Shop/ItemsList";
     }
 
 }
