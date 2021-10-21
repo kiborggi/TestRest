@@ -22,7 +22,8 @@ public Survey addSurvey(Survey survey){
 
 
     public List<Survey> getAll(){
-    return surveyRepository.findAll();
+
+    return (List<Survey>) surveyRepository.findAll();
 
 
 

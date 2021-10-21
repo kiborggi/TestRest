@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+                     xmlns:th="http://www.thymeleaf.org"
+                     xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+                     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<body>
+
+<th:block th:include="/_menu"></th:block>
+
+<form th:action="@{initSurveyCreate}" th:object="${Survey}" method="post">
+
+    <h3>Название опроса</h3>
+    <input type="text" th:field="*{name}">
+
+    <input type="submit">
+
+</form>
+
+
+</body>
+</html>

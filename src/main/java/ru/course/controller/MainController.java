@@ -15,6 +15,7 @@ import ru.course.dao.AppUserDAO;
 import ru.course.model.AppUser;
 
 
+import ru.course.model.Surveys.Survey;
 import ru.course.utils.WebUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -113,6 +114,10 @@ public class MainController {
         appUserDAO.addUser(foo);
         return "welcomePage";
     }
+
+
+
+
 
 
 }

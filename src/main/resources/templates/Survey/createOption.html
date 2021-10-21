@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<body>
+
+<th:block th:include="/_menu"></th:block>
+
+<h3>Заполнение вопросов для опроса:</h3>
+<h2 th:text="${survey.name}"></h2>
+
+
+<h3>Категории:</h3>
+<div th:each="category : ${survey.category}">
+    <h4 th:text="${category.name}"></h4>
+</div>
+
+<form th:action="@{initOptions}" th:object="${Survey}" method="post">
+
+ <div th:each="question: ${survey.question}">
+
+     <div th th:each="option : ${question.option}">
+
+         <input type="text" th:field="*{t}">
+
+     </div>
+
+ </div>
+
+</form>
+<br>
+<h3>Перейти к добавленю вариантов ответа</h3>
+<a th:text="Перейти" th:href="@{createOption.html}">
+
+</a>
+
+
+</body>
+</html>

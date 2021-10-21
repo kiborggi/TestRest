@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<body>
+
+<th:block th:include="/_menu"></th:block>
+
+<h3>Добавление категории ответа для опроса:</h3>
+<h2 th:text="${survey.name}"></h2>
+
+
+<h3>Категории:</h3>
+<div th:each="category : ${survey.category}">
+    <h4 th:text="  ${category.name}"></h4>
+</div>
+
+<h3>Добавленные вопросы :</h3>
+<div th:each="question : ${survey.question}">
+    <h4 th:with="a=${question.description}, b = ${question.numberOfOptions}" > <span th:text="${a}"></span> Количество варинтов: <span th:text="${b}"></span></h4>
+</div>
+
+<form th:action="@{initQuestion}" th:object="${Question}" method="post">
+
+    <h3>Описание опроса</h3>
+    <input type="text" th:field="*{description}">
+    <h3>Количество вариантов ответа</h3>
+    <input type="number" th:field="*{numberOfOptions}">
+    <input type="submit">
+
+</form>
+<br>
+<h3>Перейти к добавленю вариантов ответа</h3>
+<a th:text="Перейти" th:href="@{createOption}">
+
+</a>
+
+
+</body>
+</html>
