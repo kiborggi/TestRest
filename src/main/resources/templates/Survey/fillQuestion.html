@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<body>
+
+<th:block th:include="/_menu"></th:block>
+<div class="container">
+    <h3>Заполнение вопроса:</h3>
+    <h2 th:text="${question.description}" style="font-style: italic"></h2>
+
+
+    <div class="container">
+        <div class="row">
+
+
+
+            <div class="col-4">
+              <th:block th:each="option, state: ${options}">
+                  <h4>Вариант отвтеа№ <span th:text="${state.count}"></span> Id <span th:text="${option.getId()}"></span> </h4>
+                  <form th:action="@{/survey/editOption}" th:object="${Option}" method="post">
+                      <input  type="hidden" th:value="${option.id}" name = "id" id="name">
+                      <h6>Текст варинта</h6>
+                      <input type="text"  th:value="${option.text}"  name ="text">
+                      <h6>Вес ответа</h6>
+                      <input type="number" th:value="${option.weight}" name ="weight">
+                      <br>
+                      <h6>Текущая категория <spant th:text="${option.getCategoryName()}"></spant></h6>
+                      <select th:field="*{proxycategoryId}" th:value="as">
+                          <option th:each="category : ${categories}"
+                                  th:value="${category.id}"
+                                  th:text="${category.name}"
+                                  th:selected="${category.id == option.proxycategoryId}">
+                          </option>
+                      </select>
+                      <button type="submit">Изменить</button>
+                  </form>
+              </th:block>
+
+                 </div>
+
+
+
+
+    </div>
+
+</div>
+</body>
+</html>

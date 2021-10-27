@@ -9,15 +9,34 @@ public class Option {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     String text;
-     @ManyToOne (fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
+     @ManyToOne (fetch = FetchType.EAGER )
     Category category;
-     @ManyToOne
-    Question question;
-     int weight;
+
+    public String getProxycategoryId() {
+        return proxycategoryId;
+    }
+
+    public void setProxycategoryId(String proxycategoryId) {
+        this.proxycategoryId = proxycategoryId;
+    }
+
+    int weight;
+
+     String proxycategoryId;
 
     public Category getCategory() {
         return category;
     }
+
+    public String getCategoryName(){
+        if (this.category == null){
+            return null;
+        }
+        else
+        return category.getName();
+    }
+
+
 
     public void setCategory(Category category) {
         this.category = category;

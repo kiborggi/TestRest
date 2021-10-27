@@ -7,11 +7,20 @@ import javax.persistence.*;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     long id;
 
 
     String name;
 
+
+    public boolean eqName(String name){
+        if (this.name == null){
+            return false;
+        }
+        else
+            return this.name.equals(name);
+    }
 
 
 

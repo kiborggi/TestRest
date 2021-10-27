@@ -12,7 +12,6 @@ public class Question {
         @GeneratedValue(strategy= GenerationType.IDENTITY)
         long id;
 
-
         String description;
 
         @OneToMany (fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
@@ -59,11 +58,5 @@ public class Question {
                 this.description = description;
         }
 
-        public List<Option> getOptionList() {
-                return option;
-        }
 
-        public void setOptionList(List<Option> optionList) {
-                this.option = optionList;
-        }
 }

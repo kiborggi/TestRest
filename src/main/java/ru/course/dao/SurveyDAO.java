@@ -18,16 +18,14 @@ private SurveyRepository surveyRepository;
 public Survey addSurvey(Survey survey){
     return surveyRepository.saveAndFlush(survey);
 }
-
-
-
     public List<Survey> getAll(){
-
     return (List<Survey>) surveyRepository.findAll();
-
-
-
 }
+
+ public List<Survey> getByUserId(long u){
+    return surveyRepository.findAllByUserId(u);
+ }
+
 
     public SurveyDAO() {
     }

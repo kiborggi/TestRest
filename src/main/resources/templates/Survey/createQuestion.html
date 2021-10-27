@@ -16,10 +16,11 @@
 <div th:each="category : ${survey.category}">
     <h4 th:text="  ${category.name}"></h4>
 </div>
-
+<a th:href="@{createCategory}">Добавить Категорию</a>
 <h3>Добавленные вопросы :</h3>
 <div th:each="question : ${survey.question}">
     <h4 th:with="a=${question.description}, b = ${question.numberOfOptions}" > <span th:text="${a}"></span> Количество варинтов: <span th:text="${b}"></span></h4>
+    <a th:href ="${question.getId()}">Заполнить вопрос</a>
 </div>
 
 <form th:action="@{initQuestion}" th:object="${Question}" method="post">

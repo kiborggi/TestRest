@@ -9,16 +9,14 @@ public class Survey {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
 
-    long SurveyId;
+    long surveyId;
 
     String name;
-
-
-
     long userId;
 
     @OneToMany (fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     List<Question> question;
+
     @OneToMany(fetch = FetchType.LAZY ,cascade = CascadeType.ALL)
     List<Category> category;
 
@@ -45,11 +43,11 @@ public class Survey {
     }
 
     public long getSurveyId() {
-        return SurveyId;
+        return surveyId;
     }
 
     public void setSurveyId(long surveyId) {
-        SurveyId = surveyId;
+        surveyId = surveyId;
     }
 
     public String getName() {
